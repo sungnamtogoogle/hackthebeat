@@ -1,102 +1,80 @@
-import { ZoneId, ZoneInfo, BalanceQuestion } from "@/types/game";
+import { GameId, GameInfo, KahootQuestion, QuiplashPrompt, LiarGameWord, HunminPrompt } from "@/types/game";
 
-export const ZONES: Record<ZoneId, ZoneInfo> = {
-  bar: {
-    id: "bar",
-    name: "Bar Zone",
-    emoji: "🍸",
-    description: "칵테일과 핑거푸드가 가득한 핫스팟! 분위기를 띄울 알코올 & 연애 취향 밸런스",
-    tagline: "알코올 & 연애 취향 존",
-    bgGradient: "from-purple-900 via-indigo-900 to-black",
+export const GAMES: Record<GameId, GameInfo> = {
+  kahoot: {
+    id: "kahoot",
+    name: "카후트 (Kahoot 4색 퀴즈)",
+    emoji: "🎯",
+    tagline: "원조 4색 버튼 스피드 타임어택",
+    description: "호스트 대형 화면의 퀴즈에 맞춰 4가지 색상(🔴🔵🟡🟢) 버튼을 폰으로 가장 빠르게 눌러 실시간 1위에 도전하는 스피드전!",
+    bgGradient: "from-purple-900 via-rose-900 to-black",
   },
-  balcony: {
-    id: "balcony",
-    name: "Balcony Zone",
-    emoji: "🌙",
-    description: "시원한 밤바람을 맞으며 진솔한 대화를 나누는 스포트라이트 존!",
-    tagline: "심야 속마음 & 가치관 존",
+  quiplash: {
+    id: "quiplash",
+    name: "퀴플래시 (Quiplash 드립 배틀)",
+    emoji: "🤣",
+    tagline: "1:1 실시간 드립 관중 투표",
+    description: "초면 참가자 2명의 신박한 드립 답변이 1:1로 대형 화면에 띄워지고, 현장 관중들이 실시간으로 투표하는 드립 대결!",
+    bgGradient: "from-amber-900 via-rose-900 to-black",
+  },
+  liar: {
+    id: "liar",
+    name: "라이어 게임 (Liar Game)",
+    emoji: "🎭",
+    tagline: "비밀 역할 부여 & 심리 추리",
+    description: "단 1명에게만 제시어가 숨겨진 '라이어' 역할이 부여됩니다! 힌트를 주고받으며 심리전으로 라이어를 적발하세요!",
     bgGradient: "from-blue-900 via-slate-900 to-black",
   },
-  living: {
-    id: "living",
-    name: "Living Room Zone",
-    emoji: "🔥",
-    description: "파티의 메인 스테이지! 모두 함께 웃고 즐기는 인싸 게임 존",
-    tagline: "메인 인싸 & 유머 밸런스 존",
+  hunmin: {
+    id: "hunmin",
+    name: "훈민정음 (초성 스피드전)",
+    emoji: "🔤",
+    tagline: "0.1초 순발력 타임어택",
+    description: "화면에 초성(예: ㄷ ㄱ)이 등장하면 자기 폰으로 0.1초 만에 가장 빠르게 단어를 입력해 승리하는 타임어택 게임!",
     bgGradient: "from-rose-900 via-pink-900 to-black",
   },
 };
 
-export const BALANCE_QUESTIONS: Record<ZoneId, BalanceQuestion[]> = {
-  bar: [
-    {
-      id: "bar-1",
-      zoneId: "bar",
-      title: "오늘 파티에서 마음에 드는 이성에게 다가가는 내 스타일은?",
-      optionA: "자연스럽게 눈맞추고 칵테일 권하며 대화 물꼬 트기",
-      optionB: "주변 친구들이랑 크게 웃으며 먼저 신나게 존재감 어필하기",
-      tagA: "#감성직진파",
-      tagB: "#분위기주도파",
-    },
-    {
-      id: "bar-2",
-      zoneId: "bar",
-      title: "파티가 끝난 후 새벽 2시, 더 끌리는 애프터 코스는?",
-      optionA: "조용한 LP바나 수제맥주집에서 1:1 깊은 대화",
-      optionB: "24시 국밥집에서 해장하며 배꼽 잡는 뒷풀이",
-      tagA: "#로맨틱LP",
-      tagB: "#해장국밥",
-    },
-  ],
-  balcony: [
-    {
-      id: "balcony-1",
-      zoneId: "balcony",
-      title: "살면서 더 용납하기 힘든 파티 꼴불견은?",
-      optionA: "대화할 때 휴대폰만 들여다보며 건성 응대하기",
-      optionB: "술 취해서 안 멈추고 자랑만 30분째 이어가기",
-      tagA: "#스마트폰유령",
-      tagB: "#자기자랑투머치",
-    },
-    {
-      id: "balcony-2",
-      zoneId: "balcony",
-      title: "나와 더 잘 통하는 동문/친구의 특징은?",
-      optionA: "새로운 도전 이야기할 때 눈빛이 살아나는 야망가",
-      optionB: "고민 들을 때 말없이 따뜻하게 공감해주는 힐러",
-      tagA: "#야망열정",
-      tagB: "#따스한공감",
-    },
-  ],
-  living: [
-    {
-      id: "living-1",
-      zoneId: "living",
-      title: "파티장에서 호스트가 내게 부탁할 때 더 기분 좋은 역할은?",
-      optionA: "BGM 디제잉 맡아서 현장 사운드 싹 잡기",
-      optionB: "즉석 이벤트 진행자 맡아서 마이크 잡고 진행하기",
-      tagA: "#파티DJ",
-      tagB: "#마이크MC",
-    },
-    {
-      id: "living-2",
-      zoneId: "living",
-      title: "성남 동문 파티 'Hack the Beat' 최고의 순간은?",
-      optionA: "뜻밖의 동문/친구를 새로 알고 인스타그램 팔로우할 때",
-      optionB: "다 같이 밸런스 게임하며 배 잡고 터지는 순간",
-      tagA: "#인연매칭",
-      tagB: "#폭소게임",
-    },
-  ],
-};
+export const KAHOOT_QUESTIONS: KahootQuestion[] = [
+  {
+    id: "k-1",
+    title: "처음 만난 사람과 3초 만에 친해질 때 가장 효과적인 방법은?",
+    options: ["멀뚱멀뚱 폰만 보기", "파티 QR 찍고 라이어 게임하기", "자기자랑 30분하기", "조용히 집 가기"],
+    correctIndex: 1,
+  },
+  {
+    id: "k-2",
+    title: "오늘 파티 'Hack the Beat'에서 가장 재미있는 게임 1위는?",
+    options: ["카후트 🎯", "퀴플래시 🤣", "라이어 게임 🎭", "훈민정음 🔤"],
+    correctIndex: 0,
+  },
+];
 
-export function getRandomQuestion(zoneId: ZoneId): BalanceQuestion {
-  const list = BALANCE_QUESTIONS[zoneId] || BALANCE_QUESTIONS.bar;
-  return list[Math.floor(Math.random() * list.length)];
-}
+export const QUIPLASH_PROMPTS: QuiplashPrompt[] = [
+  {
+    id: "q-1",
+    question: "처음 본 사람에게 건넬 때 가장 반응이 폭발적인 첫 마디는?",
+  },
+  {
+    id: "q-2",
+    question: "파티장에서 절대 하면 안 되는 최악의 꼴불견 1위는?",
+  },
+];
 
-export function generateRoomCode(zoneId: ZoneId): string {
-  const prefix = zoneId.toUpperCase().slice(0, 3);
+export const LIAR_WORDS: LiarGameWord[] = [
+  { id: "l-1", category: "음식", word: "삼겹살" },
+  { id: "l-2", category: "장소", word: "파티룸" },
+  { id: "l-3", category: "음료", word: "하이볼" },
+];
+
+export const HUNMIN_PROMPTS: HunminPrompt[] = [
+  { id: "h-1", choseong: "ㄷ ㄱ", examples: ["당근", "대구", "동개", "달걀"] },
+  { id: "h-2", choseong: "ㅍ ㅌ", examples: ["파티", "포토", "패딩", "포틴"] },
+  { id: "h-3", choseong: "ㅎ ㄱ", examples: ["한글", "한강", "호구", "해커"] },
+];
+
+export function generateRoomCode(gameId: GameId): string {
+  const prefix = gameId.toUpperCase().slice(0, 3);
   const num = Math.floor(1000 + Math.random() * 9000);
   return `${prefix}-${num}`;
 }

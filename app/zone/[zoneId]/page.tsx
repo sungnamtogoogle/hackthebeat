@@ -3,8 +3,8 @@
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ZONES, generateRoomCode } from "@/lib/game";
-import { ZoneId } from "@/types/game";
+import { GAMES, generateRoomCode } from "@/lib/game";
+import { GameId } from "@/types/game";
 
 interface ZonePageProps {
   params: Promise<{
@@ -15,8 +15,8 @@ interface ZonePageProps {
 export default function ZonePage({ params }: ZonePageProps) {
   const { zoneId } = use(params);
   const router = useRouter();
-  const validZoneId = (zoneId in ZONES ? zoneId : "bar") as ZoneId;
-  const zone = ZONES[validZoneId];
+  const validGameId = (zoneId in GAMES ? zoneId : "kahoot") as GameId;
+  const game = GAMES[validGameId];
 
   const [hostName, setHostName] = useState("");
   const [joinCode, setJoinCode] = useState("");
@@ -24,31 +24,33 @@ export default function ZonePage({ params }: ZonePageProps) {
 
   const handleCreateRoom = (e: React.FormEvent) => {
     e.preventDefault();
-    const code = generateRoomCode(validZoneId);
+    const code = generateRoomCode(validGameId);
     const nameParam = encodeURIComponent(hostName.trim() || "익명 호스트");
-    router.push(`/room/${code}/host?zone=${validZoneId}&host=${nameParam}`);
+    router.push(`/room/${code}/host?game=${validGameId}&host=${nameParam}`);
   };
 
   const handleJoinRoom = (e: React.FormEvent) => {
     e.preventDefault();
     if (!joinCode.trim()) return;
     const code = joinCode.trim().toUpperCase();
-    router.push(`/room/${code}/play?zone=${validZoneId}`);
+    router.push(`/room/${code}/play?game=${validGameId}`);
   };
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
         <Link href="/" className="inline-flex items-center text-xs text-slate-400 hover:text-slate-200">
-          &larr; 존 선택으로 돌아가기
+          &larr; 게임 메인 맵으로 돌아가기
         </Link>
 
-        {/* Zone Header */}
+        {/* Game Header */}
         <div className="text-center space-y-2">
-          <div className="text-5xl">{zone.emoji}</div>
-          <h1 className="text-2xl font-bold text-slate-100">{zone.name}</h1>
-          <p className="text-xs font-semibold text-rose-400">{zone.tagline}</p>
-          <p className="text-slate-400 text-xs leading-relaxed">{zone.description}</p>
+          <div className="text-5xl">{game.emoji}</div>
+          <h1 className="text-2xl font-bold text-slate-100">{game.name}</h1>
+          <div className="inline-block px-3 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold rounded-full">
+            🎮 {game.tagline}
+          </div>
+          <p className="text-slate-400 text-xs leading-relaxed pt-1">{game.description}</p>
         </div>
 
         {/* Tab Selection */}
@@ -59,7 +61,7 @@ export default function ZonePage({ params }: ZonePageProps) {
               activeTab === "create" ? "bg-rose-500 text-white" : "text-slate-400 hover:text-slate-200"
             }`}
           >
-            👑 새 게임 열기 (호스트)
+            👑 새 게임 방 열기 (호스트)
           </button>
           <button
             onClick={() => setActiveTab("join")}
@@ -80,7 +82,7 @@ export default function ZonePage({ params }: ZonePageProps) {
               </label>
               <input
                 type="text"
-                placeholder="예: 21학번 김파티"
+                placeholder="예: 19학번 이호스트"
                 value={hostName}
                 onChange={(e) => setHostName(e.target.value)}
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500 text-sm"
@@ -90,7 +92,7 @@ export default function ZonePage({ params }: ZonePageProps) {
               type="submit"
               className="w-full py-3.5 bg-rose-500 hover:bg-rose-400 text-white font-bold rounded-xl text-sm transition-colors shadow-lg shadow-rose-950/50"
             >
-              🎉 {zone.name} 즉석 게임 방 생성하기
+              🎉 {game.name} 즉석 방 생성
             </button>
           </form>
         )}
@@ -100,11 +102,11 @@ export default function ZonePage({ params }: ZonePageProps) {
           <form onSubmit={handleJoinRoom} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                방 코드 (예: BAR-4091)
+                방 코드 (예: KAH-4091)
               </label>
               <input
                 type="text"
-                placeholder="BAR-1234"
+                placeholder="KAH-1234"
                 value={joinCode}
                 onChange={(e) => setJoinCode(e.target.value)}
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500 text-sm uppercase"
@@ -114,7 +116,7 @@ export default function ZonePage({ params }: ZonePageProps) {
               type="submit"
               className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm transition-colors shadow-lg shadow-indigo-950/50"
             >
-              🚀 게임 방 참여하기
+              🚀 게임 참여하기
             </button>
           </form>
         )}

@@ -1,41 +1,34 @@
-export type ZoneId = "bar" | "balcony" | "living";
+export type GameId = "kahoot" | "quiplash" | "liar" | "hunmin";
 
-export interface ZoneInfo {
-  id: ZoneId;
+export interface GameInfo {
+  id: GameId;
   name: string;
   emoji: string;
-  description: string;
   tagline: string;
+  description: string;
   bgGradient: string;
 }
 
-export interface BalanceQuestion {
+export interface KahootQuestion {
   id: string;
-  zoneId: ZoneId;
   title: string;
-  optionA: string;
-  optionB: string;
-  tagA: string;
-  tagB: string;
+  options: [string, string, string, string];
+  correctIndex: number;
 }
 
-export interface RoomState {
-  code: string;
-  zoneId: ZoneId;
-  question: BalanceQuestion;
-  hostName: string;
-  createdAt: string;
+export interface QuiplashPrompt {
+  id: string;
+  question: string;
 }
 
-export interface VoteEvent {
-  roomCode: string;
-  option: "A" | "B";
-  voterName?: string;
-  timestamp: number;
+export interface LiarGameWord {
+  id: string;
+  category: string;
+  word: string;
 }
 
-export type RealtimeVotePayload = {
-  type: "VOTE";
-  option: "A" | "B";
-  voterName?: string;
-};
+export interface HunminPrompt {
+  id: string;
+  choseong: string;
+  examples: string[];
+}

@@ -8,7 +8,7 @@ export type ZoneRole = "order" | "dj";
 
 export interface MenuItem {
   name: string;
-  price: number | null; // TODO(미정): 가격 표기 여부. 무료 행사면 null
+  price: number | null; // 가격을 비우면 참가자에게 표시하지 않는다(무료 행사)
   soldOut: boolean;
 }
 
@@ -33,38 +33,43 @@ export interface EventDoc {
   // TODO(미정): 날짜·장소 필드, 공동 주최자
 }
 
-export const ORDER_STATUSES = [
-  "placed",
-  "preparing",
-  "ready",
-  "done",
-  "canceled",
-] as const;
+/**
+ * 주문 상태는 3단계로 확정: 접수 → 완성(참가자 호출) → 전달완료.
+ * 접수는 자동이고 제조자는 주문당 완성·전달 버튼 두 번만 누른다.
+ * 준비중 단계는 데모 동선을 늘려서 뺐다. 취소는 별도 상태다.
+ */
+export const ORDER_STATUSES = ["placed", "ready", "done", "canceled"] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
 export const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {
   placed: "접수",
-  preparing: "준비중",
-  ready: "픽업대기",
-  done: "완료",
+  ready: "완성",
+  done: "전달완료",
   canceled: "취소",
 };
 
-/** 운영 대시보드의 "다음 상태" 버튼이 따르는 전이. */
+/** 운영 대시보드의 전이 버튼이 따르는 순서. */
 export const NEXT_ORDER_STATUS: Partial<Record<OrderStatus, OrderStatus>> = {
-  placed: "preparing",
-  preparing: "ready",
+  placed: "ready",
   ready: "done",
+};
+
+/** 전이 버튼의 라벨. "완성"이 곧 참가자를 부르는 호출이다. */
+export const NEXT_ORDER_ACTION: Partial<Record<OrderStatus, string>> = {
+  placed: "완성",
+  ready: "전달",
 };
 
 export interface Order {
   id: string;
+  no: number; // 행사 안에서 1씩 커지는 호출 번호. 참가자를 이 번호로 부른다
   eventId: string;
   zoneId: string;
+  zoneName: string; // 존이 지워져도 주문 카드가 읽히게 이름을 복사해 둔다
   items: { name: string; qty: number }[];
   status: OrderStatus;
+  sessionId: string; // 익명 세션(브라우저 단위). 로그인 없음
   createdAt: string;
-  // TODO(미정): 주문번호 채번 방식, 익명 세션 식별 필드
 }
 
 export interface SongRequest {
@@ -72,6 +77,7 @@ export interface SongRequest {
   eventId: string;
   zoneId: string;
   title: string;
+  sessionId: string;
   createdAt: string;
-  // TODO(미정): 좋아요 투표, 재생 완료 플래그
+  // TODO(미정): 좋아요 투표
 }

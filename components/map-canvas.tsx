@@ -5,9 +5,10 @@ import type { Block } from "@/lib/types";
 const CELL = 40;
 
 /**
- * 도면 렌더러. 에디터와 참가자 화면이 같은 블록 목록을 이 컴포넌트로 그린다.
- * 색 혈통은 행사장 원본 SVG를 따른다: 활성 존 #efe4ff/#6b3fd6.
- * TODO: 참가자의 존 탭 → 바텀시트 연결, 에디터의 드래그 편집(프로토타입에서 이식).
+ * 참가자 지도 렌더러. 색 혈통은 행사장 원본 SVG를 따른다: 활성 존 #efe4ff/#6b3fd6.
+ * 라벨은 폰 폭 기준으로 잡는다. 1200 좌표계가 390px 화면에서 1/3로 줄므로
+ * 활성 존은 26/20px(화면 약 8~9px)로 키우고, 작은 일반 공간 라벨은 감춘다.
+ * 에디터는 자기 렌더링(map-editor.tsx)을 따로 가진다. PC 전제라 규칙이 다르다.
  */
 export function MapCanvas({
   blocks,
@@ -34,7 +35,7 @@ export function MapCanvas({
         const W = b.w * CELL;
         const H = b.h * CELL;
         const area = b.w * b.h;
-        const fontSize = area >= 15 ? 20 : area >= 6 ? 14 : 11;
+        const fontSize = active ? (area >= 15 ? 26 : 20) : area >= 8 ? 15 : 0;
         return (
           <g
             key={b.id}
@@ -47,14 +48,17 @@ export function MapCanvas({
               stroke={active ? "#6b3fd6" : "#eceae4"}
               strokeWidth={active ? 2.5 : 1.5}
             />
-            <text
-              x={X + W / 2} y={Y + H / 2} dy=".35em" textAnchor="middle"
-              fontSize={fontSize}
-              fill={active ? "#1c1c1c" : "#5f5f5d"}
-              style={{ pointerEvents: "none" }}
-            >
-              {b.name}
-            </text>
+            {fontSize > 0 && (
+              <text
+                x={X + W / 2} y={Y + H / 2} dy=".35em" textAnchor="middle"
+                fontSize={fontSize}
+                fontWeight={active ? 600 : 400}
+                fill={active ? "#1c1c1c" : "#5f5f5d"}
+                style={{ pointerEvents: "none" }}
+              >
+                {b.name}
+              </text>
+            )}
           </g>
         );
       })}

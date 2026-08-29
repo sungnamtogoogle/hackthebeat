@@ -5,7 +5,7 @@ import { ORDER_STATUS_LABEL, type OrderStatus } from "@/lib/types";
  * 신청곡 관리, 품절 토글.
  * TODO: Realtime 구독, "다음 상태" 버튼(NEXT_ORDER_STATUS 전이), 신청곡 목록.
  */
-const BOARD_COLUMNS: OrderStatus[] = ["placed", "preparing", "ready"];
+const BOARD_COLUMNS: OrderStatus[] = ["placed", "ready", "done"];
 
 export default async function LiveDashboardPage({
   params,

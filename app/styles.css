@@ -1,0 +1,255 @@
+:root {
+  color-scheme: light;
+  --ink: #171412;
+  --muted: #6b625b;
+  --paper: #fbfaf7;
+  --line: #ded8cf;
+  --accent: #e23d28;
+  --accent-dark: #992916;
+  --teal: #137c72;
+  --gold: #c99a2e;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family:
+    Arial,
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    sans-serif;
+}
+
+main {
+  min-height: 100vh;
+}
+
+.hero {
+  min-height: 58vh;
+  display: flex;
+  align-items: end;
+  background:
+    linear-gradient(90deg, rgba(23, 20, 18, 0.84), rgba(23, 20, 18, 0.38)),
+    url("https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1800&q=80");
+  background-position: center;
+  background-size: cover;
+  color: var(--white);
+}
+
+.heroInner {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 80px 0 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: 32px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #f3ca69;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.lede {
+  max-width: 660px;
+  margin: 24px 0 0;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.statusPanel {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 8px;
+}
+
+.statusPanel strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.statusPanel p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.55;
+}
+
+.statusDot {
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: var(--gold);
+}
+
+.statusDot.ready {
+  background: #46d17e;
+}
+
+.workspace {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 42px 0 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+  gap: 28px;
+}
+
+.flow {
+  display: grid;
+  gap: 12px;
+}
+
+.flow article {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 4px 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.flow span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  font-weight: 700;
+}
+
+.flow h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.flow p {
+  grid-column: 2;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.joinForm {
+  align-self: start;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 16px 34px rgba(23, 20, 18, 0.08);
+}
+
+.joinForm h2 {
+  margin: 0 0 18px;
+  font-size: 1.35rem;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field label {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+  font: inherit;
+  color: var(--ink);
+  background: #fffefa;
+}
+
+.field textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+button {
+  width: 100%;
+  min-height: 46px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--white);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled,
+fieldset:disabled input,
+fieldset:disabled textarea {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+.formMessage {
+  min-height: 24px;
+  margin: 12px 0 0;
+  color: var(--teal);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.formMessage.error {
+  color: var(--accent-dark);
+}
+
+@media (max-width: 760px) {
+  .hero {
+    min-height: 64vh;
+  }
+
+  .heroInner,
+  .workspace {
+    width: min(100% - 28px, 640px);
+    grid-template-columns: 1fr;
+  }
+
+  .heroInner {
+    padding-top: 72px;
+  }
+}

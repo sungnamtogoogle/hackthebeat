@@ -11,3 +11,7 @@ tsconfig.tsbuildinfo
 *.log
 !.env.example
 .env*
+
+# 채점기 결과물
+judging_result/
+__pycache__/

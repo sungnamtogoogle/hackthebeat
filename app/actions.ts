@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { query } from "@/lib/db";
+import { createRegistration } from "@/lib/db";
 
 export type JoinState = {
   ok: boolean;
@@ -24,15 +24,12 @@ export async function joinParty(
     return { ok: false, message: "졸업연도를 올바르게 입력해 주세요." };
   }
 
-  await query(
-    `
-      insert into party_registrations (name, graduation_year, party_mood)
-      values ($1, $2, $3)
-    `,
-    [name, graduationYear, partyMood || null],
-  );
+  await createRegistration({
+    name,
+    graduation_year: graduationYear,
+    party_mood: partyMood || null,
+  });
 
   revalidatePath("/");
   return { ok: true, message: "참가 신청이 저장되었습니다." };
 }
-

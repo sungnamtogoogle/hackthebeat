@@ -1,27 +1,30 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import { getRegistrationCount } from "@/lib/db";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const result = await query<{ now: string }>("select now()::text as now");
+    const registrationCount = await getRegistrationCount();
 
     return NextResponse.json({
       ok: true,
       database: "postgres",
-      checkedAt: result.rows[0]?.now,
+      registrationCount,
+      checkedAt: new Date().toISOString(),
     });
   } catch (error) {
     return NextResponse.json(
       {
         ok: false,
         database: "postgres",
-        message: error instanceof Error ? error.message : "Unknown database error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Unknown Supabase Postgres connection error",
       },
       { status: 500 },
     );
   }
 }
-

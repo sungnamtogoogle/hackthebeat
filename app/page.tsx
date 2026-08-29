@@ -26,7 +26,7 @@ export default async function Home() {
               <p>
                 {databaseReady
                   ? `현재 ${registrationCount ?? 0}명이 파티 리스트에 등록되었습니다.`
-                  : "Vercel에 DATABASE_URL을 설정하면 Supabase Postgres에 저장됩니다."}
+                  : "Vercel에 Supabase 환경변수를 설정하면 Postgres에 저장됩니다."}
               </p>
             </div>
           </div>

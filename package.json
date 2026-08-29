@@ -13,14 +13,13 @@
     "db:push:url": "supabase db push --db-url \"$DATABASE_URL\""
   },
   "dependencies": {
+    "@supabase/supabase-js": "latest",
     "next": "latest",
-    "pg": "latest",
     "react": "latest",
     "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",
-    "@types/pg": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "eslint": "latest",
@@ -29,6 +28,6 @@
     "typescript": "latest"
   },
   "engines": {
-    "node": ">=20.11.0"
+    "node": ">=22.0.0"
   }
 }

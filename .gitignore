@@ -1,10 +1,13 @@
 .env
 .env*.local
 .vercel
+.playwright-mcp
 .next
 node_modules
 dist
 coverage
+supabase/.temp
 tsconfig.tsbuildinfo
 *.log
 !.env.example
+.env*

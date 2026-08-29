@@ -7,13 +7,14 @@ This repository is prepared as a minimal Next.js service backed by one Supabase 
 ## 1. Create Supabase project
 
 1. Create one Supabase project.
-2. Copy the pooled Postgres connection string.
-3. Keep only one runtime database URL for the app: `DATABASE_URL`.
+2. Copy the project URL and service role key.
+3. Keep the service role key server-only. Never expose it with a `NEXT_PUBLIC_` prefix.
 
-Recommended Vercel runtime value:
+Runtime values:
 
 ```bash
-DATABASE_URL="postgresql://postgres.<project-ref>:<password>@aws-0-<region>.pooler.supabase.com:6543/postgres?sslmode=require"
+SUPABASE_URL="https://<project-ref>.supabase.co"
+SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"
 ```
 
 ## 2. Apply schema
@@ -26,7 +27,7 @@ npx supabase link --project-ref <project-ref>
 npm run db:push
 ```
 
-Or direct database URL mode:
+Or direct database URL mode if you have a Postgres connection string:
 
 ```bash
 export DATABASE_URL="postgresql://..."
@@ -42,7 +43,8 @@ The migration creates `public.party_registrations`.
 3. Add environment variables for Production and Preview:
 
 ```bash
-DATABASE_URL="postgresql://..."
+SUPABASE_URL="https://<project-ref>.supabase.co"
+SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"
 NEXT_PUBLIC_APP_URL="https://<your-vercel-domain>"
 ```
 
@@ -77,4 +79,3 @@ Expected response:
 ```
 
 Then submit the form on `/` and confirm the count increases.
-

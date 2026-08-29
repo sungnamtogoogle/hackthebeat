@@ -47,7 +47,9 @@ export function PartyJoinForm({ disabled = false }: PartyJoinFormProps) {
       <button type="submit" disabled={disabled || pending}>
         {pending ? "저장 중" : "신청 저장"}
       </button>
-      {disabled ? <p className="formMessage error">DATABASE_URL 설정 후 신청을 받을 수 있습니다.</p> : null}
+      {disabled ? (
+        <p className="formMessage error">Supabase 환경변수 설정 후 신청을 받을 수 있습니다.</p>
+      ) : null}
       {state.message ? (
         <p className={state.ok ? "formMessage" : "formMessage error"}>{state.message}</p>
       ) : null}

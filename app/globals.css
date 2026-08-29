@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* design.md 토큰. 모든 회색은 #1c1c1c의 불투명도 변주로 만든다. */
+:root {
+  --cream: #f7f4ed;
+  --charcoal: #1c1c1c;
+  --off-white: #fcfbf8;
+  --muted: #5f5f5d;
+  --line: #eceae4;
+  --line-strong: rgba(28, 28, 28, 0.4);
+  --tint-hover: rgba(28, 28, 28, 0.04);
+  --zone-fill: #efe4ff; /* 행사장 원본 SVG의 활성 존 색 */
+  --zone-stroke: #6b3fd6;
+  --shadow-btn:
+    rgba(255, 255, 255, 0.2) 0 0.5px 0 0 inset,
+    rgba(0, 0, 0, 0.2) 0 0 0 0.5px inset,
+    rgba(0, 0, 0, 0.05) 0 1px 2px 0;
+  --shadow-focus: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-charcoal: var(--charcoal);
+  --color-off-white: var(--off-white);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --font-sans:
+    "Pretendard Variable", Pretendard, ui-sans-serif, system-ui,
+    -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+}
+
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* 제목: 600 고정, 큰 크기에서 음수 자간 (design.md 표기 규칙) */
+.display {
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.9px;
+  text-wrap: balance;
+}
+
+@layer components {
+  .card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .btn:active {
+    opacity: 0.8;
+  }
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus), 0 0 0 2px rgba(59, 130, 246, 0.5);
+  }
+  .btn-dark {
+    background: var(--charcoal);
+    color: var(--off-white);
+    box-shadow: var(--shadow-btn);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--charcoal);
+    border: 1px solid var(--line-strong);
+  }
+  .btn-surface {
+    background: var(--cream);
+    color: var(--charcoal);
+  }
+  .btn-surface:hover {
+    background: var(--tint-hover);
+  }
+}

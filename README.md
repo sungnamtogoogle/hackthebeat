@@ -6,6 +6,7 @@
 - 에디터·참가자 프로토타입: https://claude.ai/code/artifact/e4d601da-956e-4c53-b0d4-3fb299314854
 - 디자인 시스템: `design.md` (크림·차콜, 두 굵기 400/600, 테두리로 구획)
 - 배포: `DEPLOYMENT.md`, `DEPLOYMENT_RESULT.md` (Vercel + Supabase Postgres, 확인은 `/api/health`)
+- 채점 리허설: `JUDGE.md` (`judging_rubric.md` 로 제출 전 자체 채점), 제출 준비물은 `SUBMISSION_CHECKLIST.md`
 
 ## 실행
 

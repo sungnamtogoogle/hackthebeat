@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Block, ZoneRole } from "@/lib/types";
+import type { Block, MenuItem, ZoneRole } from "@/lib/types";
 import { SAMPLE_BLOCKS } from "@/lib/sample-map";
 import { CELL, GRID, VIEW_H, VIEW_W, blocksStorageKey } from "@/lib/map";
 
@@ -9,7 +9,8 @@ import { CELL, GRID, VIEW_H, VIEW_W, blocksStorageKey } from "@/lib/map";
  * 도면 에디터. 프로토타입의 인터랙션을 이식했다:
  * 빈 곳을 끌면 블록 생성, 블록은 끌어서 이동, 선택하면 이름·역할 편집.
  * 저장은 브라우저 임시 저장이고 서버 저장은 TODO(스키마 미정).
- * TODO: 존 인스펙터에서 메뉴 편집(이름·가격·품절), 블록 크기조절 핸들, 실행취소.
+ * 메뉴는 팀 결정대로 별도 화면 없이 아래 인스펙터에서 바로 채운다.
+ * TODO: 블록 크기조절 핸들, 실행취소, 메뉴 사진 업로드(선택 항목).
  */
 
 type DragState =
@@ -148,6 +149,10 @@ export function MapEditor({ eventId }: { eventId: string }) {
     setBlocks((bs) => bs.map((b) => (b.id === selId ? { ...b, ...patch } : b)));
   }
 
+  function updateMenu(next: MenuItem[]) {
+    updateSelected({ menu: next });
+  }
+
   return (
     <div>
       <div className="card overflow-hidden p-3">
@@ -227,6 +232,7 @@ export function MapEditor({ eventId }: { eventId: string }) {
       </div>
 
       {selected ? (
+        <div>
         <div className="card mt-3 flex flex-wrap items-center gap-3 p-4">
           <input
             aria-label="블록 이름"
@@ -263,6 +269,93 @@ export function MapEditor({ eventId }: { eventId: string }) {
           >
             삭제
           </button>
+        </div>
+
+        {selected.role === "order" && (
+          <div className="card mt-3 p-4">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="text-sm font-semibold">메뉴</h2>
+              <span className="text-xs text-muted">
+                여기 적은 메뉴가 참가자 메뉴판에 바로 뜬다. 가격을 비우면
+                표시하지 않는다.
+              </span>
+            </div>
+            {(selected.menu ?? []).map((m, i) => (
+              <div
+                key={i}
+                className="flex flex-wrap items-center gap-2 border-b border-line py-2"
+              >
+                <input
+                  aria-label="메뉴 이름"
+                  className="min-w-[140px] flex-1 rounded-md border border-line bg-cream px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  value={m.name}
+                  onChange={(e) =>
+                    updateMenu(
+                      (selected.menu ?? []).map((x, j) =>
+                        j === i ? { ...x, name: e.target.value } : x,
+                      ),
+                    )
+                  }
+                />
+                <input
+                  aria-label="가격(선택)"
+                  placeholder="가격(선택)"
+                  inputMode="numeric"
+                  className="w-28 rounded-md border border-line bg-cream px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  value={m.price ?? ""}
+                  onChange={(e) => {
+                    const digits = e.target.value.replace(/[^0-9]/g, "");
+                    updateMenu(
+                      (selected.menu ?? []).map((x, j) =>
+                        j === i
+                          ? { ...x, price: digits ? Number(digits) : null }
+                          : x,
+                      ),
+                    );
+                  }}
+                />
+                <button
+                  type="button"
+                  className={
+                    m.soldOut
+                      ? "rounded-full bg-charcoal px-3 py-1 text-xs text-off-white"
+                      : "rounded-full border border-line px-3 py-1 text-xs text-muted"
+                  }
+                  onClick={() =>
+                    updateMenu(
+                      (selected.menu ?? []).map((x, j) =>
+                        j === i ? { ...x, soldOut: !x.soldOut } : x,
+                      ),
+                    )
+                  }
+                >
+                  품절
+                </button>
+                <button
+                  type="button"
+                  className="text-xs text-muted underline"
+                  onClick={() =>
+                    updateMenu((selected.menu ?? []).filter((_, j) => j !== i))
+                  }
+                >
+                  삭제
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn btn-ghost mt-3 text-sm"
+              onClick={() =>
+                updateMenu([
+                  ...(selected.menu ?? []),
+                  { name: "새 메뉴", price: null, soldOut: false },
+                ])
+              }
+            >
+              + 메뉴 추가
+            </button>
+          </div>
+        )}
         </div>
       ) : (
         <p className="mt-3 text-sm text-muted">

@@ -12,17 +12,30 @@
 
 The current production deployment was created from the local workspace with Vercel CLI.
 
-It is deployed and usable now. GitHub automatic deployment should be connected to:
+It is deployed and usable now.
+
+The source code has been pushed to:
 
 ```text
 https://github.com/sungnamtogoogle/hackthebeat
 ```
 
+GitHub automatic deployment is not connected yet. Vercel CLI failed with a repository access error:
+
+```text
+Failed to connect sungnamtogoogle/hackthebeat to project.
+Make sure there aren't any typos and that you have access to the repository if it's private.
+```
+
+This means local GitHub push access works, but the Vercel account/team still needs GitHub App access to the repository.
+
+After Vercel has access to the GitHub repository, run:
+
 ```bash
 npx vercel git connect https://github.com/sungnamtogoogle/hackthebeat
 ```
 
-After that, pushes to the connected production branch can trigger Vercel deployments.
+After that, pushes to `main` can trigger Vercel deployments.
 
 ## Database
 
